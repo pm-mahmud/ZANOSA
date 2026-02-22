@@ -1,4 +1,3 @@
-// Inbox.tsx
 import React, { useState, useRef, useEffect } from "react";
 import {
   View,
@@ -13,6 +12,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { io, Socket } from "socket.io-client";
+import { router } from "expo-router"; // ১. রাউটার ইম্পোর্ট
+import { Ionicons } from "@expo/vector-icons"; // ২. আইকন ইম্পোর্ট
 
 // Replace with your PC IP for testing on phone
 const SOCKET_SERVER_URL = "http://192.168.1.183:3000";
@@ -30,19 +31,13 @@ const Inbox = () => {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    // Connect to backend
     socketRef.current = io(SOCKET_SERVER_URL);
-
-    // Receive all previous messages
     socketRef.current.on("all_messages", (msgs: Message[]) => {
       setMessages(msgs);
     });
-
-    // Listen for new messages
     socketRef.current.on("message", (msg: Message) => {
       setMessages((prev) => [...prev, msg]);
     });
-
     return () => {
       socketRef.current?.disconnect();
     };
@@ -50,18 +45,15 @@ const Inbox = () => {
 
   const handleSend = () => {
     if (!input.trim()) return;
-
     const msg: Message = {
       id: socketRef.current?.id || "",
       text: input,
       timestamp: new Date().toLocaleTimeString(),
     };
-
     socketRef.current?.emit("message", msg);
     setInput("");
   };
 
-  // Auto-scroll to bottom when messages update
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   }, [messages]);
@@ -74,9 +66,17 @@ const Inbox = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ flex: 1 }}>
-          {/* Header */}
+          
+          {/* --- ৩. আপডেট করা Header যেখানে ব্যাক বাটন আছে --- */}
           <View style={styles.header}>
-            <Text style={styles.headerText}>Zefry Epstine</Text>
+            <Pressable 
+              onPress={() => router.back()} 
+              style={styles.backButton}
+            >
+              <Ionicons name="arrow-back" size={24} color="#3e3d3d" />
+            </Pressable>
+            <Text style={styles.headerText}>Pavel Mahmud Raj</Text>
+            <View style={{ width: 24 }} /> {/* নাম মাঝখানে রাখার জন্য */}
           </View>
 
           {/* Messages */}
@@ -103,7 +103,6 @@ const Inbox = () => {
                   >
                     {msg.text}
                   </Text>
-                  
                 </View>
               );
             })}
@@ -130,7 +129,6 @@ const Inbox = () => {
 
 export default Inbox;
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -139,33 +137,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "#f0f0f0",
   },
-
   header: {
     backgroundColor: "#d4d9ea",
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
+    flexDirection: "row", // ৪. আইকন ও টেক্সট পাশাপাশি রাখার জন্য
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-
+  backButton: {
+    padding: 5,
+  },
   headerText: {
-    fontSize: 24,
+    fontSize: 20, // ৫. একটু ছোট করা হয়েছে যাতে ফিট হয়
     fontWeight: "bold",
     color: "#3e3d3d",
     textAlign: "center",
   },
-
   messageBubble: {
     padding: 12,
     borderRadius: 12,
     marginBottom: 10,
     maxWidth: "80%",
   },
-
   myMessage: {
     backgroundColor: "#5868f5",
     alignSelf: "flex-end",
   },
-
   theirMessage: {
     backgroundColor: "#fff",
     borderWidth: 1,
@@ -189,13 +188,11 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     marginBottom: 10,
   },
-
   textInput: {
     flex: 1,
     fontSize: 16,
     paddingVertical: 8,
   },
-
   sendButton: {
     marginLeft: 10,
     backgroundColor: "#5868f5",
@@ -203,7 +200,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 10,
   },
-
   sendButtonText: {
     color: "#fff",
     fontWeight: "600",

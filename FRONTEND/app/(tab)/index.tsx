@@ -27,7 +27,7 @@ const Home = () => {
         />
 
         <Link href="/stack/userprofile">
-          <Text style={styles.username}>Zefry Epstin</Text>
+          <Text style={styles.username}>Pavel Mahmud Raj</Text>
         </Link>
       </View>
 
