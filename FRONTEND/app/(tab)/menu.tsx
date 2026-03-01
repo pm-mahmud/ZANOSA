@@ -1,8 +1,10 @@
-import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Reusable Menu Item
 // @ts-ignore
 const MenuItem = ({ icon, label, color = "#292323", onPress }) => (
   <Pressable style={styles.menuItem} onPress={onPress}>
@@ -11,61 +13,51 @@ const MenuItem = ({ icon, label, color = "#292323", onPress }) => (
   </Pressable>
 );
 
+// Main Menu Component
 const Menu = () => {
-
-  // পেমেন্ট ফাংশন
-  const handlePayment = async () => {
-    try {
-      // ১. আপনার পিসির আসল IPv4 Address এখানে দিন (CMD তে ipconfig লিখে পাবেন)
-      const serverIP = "192.168.0.105"; 
-      
-      const response = await fetch(`http://${serverIP}:3000/payment/init`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: 500 }), // টাকার পরিমাণ এখানে দিন
-      });
-      
-      const data = await response.json();
-
-      if (data.url) {
-        // ২. এটি আপনাকে পেমেন্ট গেটওয়েতে নিয়ে যাবে
-        router.push({
-          pathname: "/payment", 
-          params: { url: data.url }
-        });
-      } else {
-        Alert.alert("Error", "পেমেন্ট লিংক তৈরি করা যায়নি।");
-      }
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Error", "সার্ভার কানেক্ট হচ্ছে না! পিসি ও মোবাইল একই Wi-Fi এ আছে তো?");
-    }
-  };
-
   return (
     <View style={styles.container}>
+      {/* Header */}
       <Text style={styles.header}>Menu</Text>
 
-      <MenuItem icon="person-outline" label="Profile" onPress={() => router.push("/stack/profile")} />
-      
-      {/* নতুন পেমেন্ট বাটন */}
-      <MenuItem 
-        icon="wallet-outline" 
-        label="Add Money" 
-        color="#06127d" 
-        onPress={handlePayment} 
+      {/* Menu Items */}
+      <MenuItem
+        icon="person-outline"
+        label="Profile"
+        onPress={() => router.push("/stack/profile")}
+      />
+      <MenuItem icon="settings-outline" label="Settings" onPress={undefined} />
+      <MenuItem
+        icon="information-circle-outline"
+        label="About"
+        onPress={undefined}
+      />
+      <MenuItem icon="call-outline" label="Contact" onPress={undefined} />
+      <MenuItem
+        icon="alert-circle-outline"
+        label="Report a Problem"
+        onPress={undefined}
       />
 
-      <MenuItem icon="settings-outline" label="Settings" onPress={() => {}} />
-      <MenuItem icon="information-circle-outline" label="About" onPress={() => {}} />
-      <MenuItem icon="call-outline" label="Contact" onPress={() => {}} />
-      <MenuItem icon="alert-circle-outline" label="Report a Problem" onPress={() => {}} />
-      
+      {/* Logout */}
       <MenuItem
         icon="log-out-outline"
         label="Logout"
         color="red"
-        onPress={() => router.push("/stack/login")}
+        onPress={async () => {
+          try {
+            // Clear stored user info
+            await AsyncStorage.removeItem("userEmail");
+            await AsyncStorage.removeItem("userName");
+           
+
+            // Navigate to login
+            router.push("/stack/login");
+          } catch (err) {
+            console.log("Logout error:", err);
+            alert("Could not log out. Try again.");
+          }
+        }}
       />
     </View>
   );
@@ -80,11 +72,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: "#f0f0f0",
   },
+
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
   },
+
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -92,8 +86,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 12,
     marginBottom: 12,
-    elevation: 2,
+    elevation: 2, // Android shadow
   },
+
   menuText: {
     marginLeft: 15,
     fontSize: 16,
