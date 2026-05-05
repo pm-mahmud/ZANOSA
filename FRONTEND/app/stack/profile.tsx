@@ -151,4 +151,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: "#f2f2f2",
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

@@ -47,8 +47,24 @@ const RootLayout = () => {
           ),
         }}
       />
+<<<<<<< HEAD
+=======
+
+      {/* এই অংশটি পেমেন্ট বাটনটিকে নিচ থেকে সরিয়ে দেবে */}
+      <Tabs.Screen
+        name="payment"
+        options={{
+          href: null, // এটিই ম্যাজিক যা ট্যাব বার থেকে বাটনটি হাইড করবে
+          headerShown: false,
+        }}
+      />
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
     </Tabs>
   );
 };
 
+<<<<<<< HEAD
 export default RootLayout;
+=======
+export default RootLayout;
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

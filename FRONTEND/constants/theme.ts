@@ -56,4 +56,8 @@ export interface Message {
   id: string;
   text: string;
   timestamp: string;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

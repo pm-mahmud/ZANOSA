@@ -26,11 +26,19 @@ export default function SignupScreen() {
   const handleSignup = async () => {
     if (!name || !email || !password) {
       Alert.alert("Error", "Please fill all fields");
+<<<<<<< HEAD
       return; 
     }
 
     try {
       const response = await fetch(`${BASE_URL}/api/signup`, {
+=======
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/auth/signup`, {
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -200,4 +208,8 @@ const styles = StyleSheet.create({
   loginLink: { marginTop: "auto", marginBottom: 20, alignSelf: "center" },
   footerText: { fontSize: 14, color: "#7D8699", paddingBottom: 40 },
   link: { color: "#318CE7", fontWeight: "600" },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

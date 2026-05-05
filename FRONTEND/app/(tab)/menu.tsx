@@ -94,4 +94,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

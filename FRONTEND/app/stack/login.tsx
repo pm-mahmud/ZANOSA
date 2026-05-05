@@ -9,7 +9,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+<<<<<<< HEAD
   View, 
+=======
+  View,
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
   ScrollView,
   Alert,
 } from "react-native";
@@ -30,7 +34,11 @@ export default function LoginScreen() {
     }
 
     try {
+<<<<<<< HEAD
       const response = await fetch(`${BASE_URL}/api/login`, {
+=======
+      const response = await fetch(`${BASE_URL}/auth/login`, {
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -197,4 +205,8 @@ const styles = StyleSheet.create({
   footer: { marginTop: 30, alignSelf: "center" },
   footerText: { color: "#7D8699" },
   signUpLink: { color: "#318CE7", fontWeight: "700" },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

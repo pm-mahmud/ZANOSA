@@ -8,7 +8,11 @@ const Message = () => {
       <View>
         <Text style={styles.chatName}>John Doe</Text>
         <Text style={styles.chatText}>Hey! How are you?</Text>
+<<<<<<< HEAD
       </View> 
+=======
+      </View>
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
     </Link>
   );
 

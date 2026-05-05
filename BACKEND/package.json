@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node index.js",
     "dev": "nodemon index.js"
+=======
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
   },
   "keywords": [],
   "author": "",
@@ -13,9 +18,20 @@
   "type": "module",
   "dependencies": {
     "cors": "^2.8.6",
+<<<<<<< HEAD
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.6.1",
     "nodemon": "^3.1.14"
   }
 }
+=======
+    "express": "^5.2.1",
+    "mongoose": "^9.2.3",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a

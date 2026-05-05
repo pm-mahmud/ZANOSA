@@ -210,4 +210,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> ba98a3bc0a72ac14a2b0eae0b842780e96f1483a
