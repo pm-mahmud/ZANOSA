@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 // ================= SIGNUP =================
 export const signup = async (req, res) => {
-  console.log("🔥 Signup API hit");
+  console.log("Signup API hit");
   console.log(req.body);
 
   try {
@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email }); //1 0r 0
 
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -46,17 +46,17 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }); //1 or 0
 
     if (!user) {
       return res.status(400).json({ message: "User does not exist" });
     }
 
     // 🔐 Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password); // 1 or 0
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
     // 🔥 CREATE JWT TOKEN (THIS IS WHAT YOU ASKED EARLIER)
