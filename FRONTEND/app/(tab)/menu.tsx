@@ -26,17 +26,36 @@ const Menu = () => {
         label="Profile"
         onPress={() => router.push("/stack/profile")}
       />
-      <MenuItem icon="settings-outline" label="Settings" onPress={undefined} />
+
+      <MenuItem
+        icon="settings-outline"
+        label="Settings"
+        onPress={undefined}
+      />
+
       <MenuItem
         icon="information-circle-outline"
         label="About"
         onPress={undefined}
       />
-      <MenuItem icon="call-outline" label="Contact" onPress={undefined} />
+
+      <MenuItem
+        icon="call-outline"
+        label="Contact"
+        onPress={undefined}
+      />
+
       <MenuItem
         icon="alert-circle-outline"
         label="Report a Problem"
         onPress={undefined}
+      />
+
+      <MenuItem
+        icon="diamond-outline"
+        label="Buy Premium"
+        color="#6a0dad"
+        onPress={() => router.push("/premium")}
       />
 
       {/* Logout */}
@@ -49,10 +68,10 @@ const Menu = () => {
             // Clear stored user info
             await AsyncStorage.removeItem("userEmail");
             await AsyncStorage.removeItem("userName");
-           
 
             // Navigate to login
             router.push("/stack/login");
+
           } catch (err) {
             console.log("Logout error:", err);
             alert("Could not log out. Try again.");
@@ -86,7 +105,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 12,
     marginBottom: 12,
-    elevation: 2, // Android shadow
+    elevation: 2,
   },
 
   menuText: {
