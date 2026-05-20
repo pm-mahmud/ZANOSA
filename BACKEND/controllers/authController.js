@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 // ================= SIGNUP =================
 export const signup = async (req, res) => {
-  console.log("Signup API hit");
+  console.log("🔥 Signup API hit");
   console.log(req.body);
 
   try {
@@ -14,7 +14,7 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const existingUser = await User.findOne({ email }); //1 0r 0
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -46,17 +46,17 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }); //1 or 0
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ message: "User does not exist" });
     }
 
     // 🔐 Compare password
-    const isMatch = await bcrypt.compare(password, user.password); // 1 or 0
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // 🔥 CREATE JWT TOKEN (THIS IS WHAT YOU ASKED EARLIER)
@@ -74,6 +74,64 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
       },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// ================= GET ALL USERS =================
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, "name email _id profilePic");
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// ================= GET PROFILE =================
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id || req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// ================= UPDATE PROFILE PIC =================
+export const updateProfilePic = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Image is required" });
+    }
+
+    const imageUrl =
+      req.file.path ||
+      req.file.secure_url ||
+      req.file.url;
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id || req.user._id,
+      { profilePic: imageUrl },
+      { new: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Profile picture updated successfully",
+      profilePic: user.profilePic,
+      user,
     });
   } catch (error) {
     console.log(error);
